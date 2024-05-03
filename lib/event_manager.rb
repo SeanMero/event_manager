@@ -2,7 +2,6 @@ require 'csv'
 require 'google/apis/civicinfo_v2'
 require 'erb'
 
-
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, '0')[0..4]
 end
@@ -72,4 +71,10 @@ def time_targeting(csv_file)
   end
 end
 
-puts time_targeting(contents)
+def day_targeting(csv_file)
+  csv_file.reduce(Hash.new(0)) do |heatmap, row|
+    register = Time.strptime(row[:regdate], "%m/%d/%Y %k:%M").strftime("%A")
+    heatmap[register] += 1
+    heatmap
+  end
+end
