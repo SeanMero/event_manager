@@ -50,3 +50,13 @@ contents.each do |row|
 
   save_thank_you_letter(id, form_letter)
 end
+
+def clean_phone_numbers(phone)
+  if phone.nil? || phone.length < 10 || phone.length == 11 && phone[0] != 1 || phone.length > 11
+    '0000000000'
+  elsif phone.length == 11 && phone[0] == 1
+    phone[1..-1]
+  else
+    phone
+  end
+end
